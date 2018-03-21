@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ChillChat</string>
+    <string name="sign_in_text">Login</string>
+    <string name="pass_text">Password</string>
+    <string name="sign_in_button_text">Chill</string>
+    <string name="enter_text">Enter text...</string>
+    <string name="send">Send</string>
+</resources>

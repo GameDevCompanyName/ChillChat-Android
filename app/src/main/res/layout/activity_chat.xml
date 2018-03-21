@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+              android:layout_height="match_parent" android:orientation="vertical" android:weightSum="1">
+
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="InefficientWeight"
+            android:id="@+id/scrollView"
+            android:background="#0F1113" android:layout_weight="1.00">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="466dp" android:id="@+id/layout" android:isScrollContainer="true"
+                android:scrollbars="vertical"
+        >
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0F1113"
+    >
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:hint="@string/enter_text"
+                android:id="@+id/input_text"
+                android:layout_weight="1"
+                android:layout_gravity="bottom"
+                android:textSize="20sp"
+                android:textColorHint="#ef5350"
+                android:textColor="#ef5350" tools:ignore="InefficientWeight"/>
+        <Button
+                android:text="@string/send"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:id="@+id/button"
+                android:background="@drawable/myrect"
+                android:textColor="#ffebee" android:layout_gravity="top"/>
+    </LinearLayout>
+</LinearLayout>

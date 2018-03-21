@@ -1,8 +1,6 @@
 package com.gamedev.chillchat.Client;
 
 import android.os.AsyncTask;
-import android.os.StrictMode;
-import android.provider.Telephony;
 import android.util.Log;
 import com.gamedev.chillchat.GUI.ChatActivity;
 import com.gamedev.chillchat.GUI.MainActivity;
@@ -11,10 +9,14 @@ import org.json.simple.JSONValue;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.concurrent.ExecutionException;
 
 import static com.gamedev.chillchat.Manager.activities;
+import static com.gamedev.chillchat.Manager.firstClick;
+import static com.gamedev.chillchat.Manager.logged;
 
 public class ConsoleClient {
 
@@ -22,7 +24,7 @@ public class ConsoleClient {
 
     private BufferedReader in;
     private PrintWriter out;
-    public ConsoleResender resender;
+    public Resender resender;
 
     private String IP;
     private int PORT;
@@ -36,12 +38,18 @@ public class ConsoleClient {
 
     public void start() {
         TryConnect tryConnect = new TryConnect();
+        Log.d("MYERROR", "CREATE TRY CONNECT");
         try {
             socket = tryConnect.execute().get();
+            Log.d("MYERROR", "SOCKET");
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), Charset.forName("UTF-8")));
+            Log.d("MYERROR", "IN");
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), Charset.forName("UTF-8")), true);
-            resender = new ConsoleResender(in);
-            resender.start();
+            Log.d("MYERROR", "OUT");
+            resender = new Resender();
+            Log.d("MYERROR", "CREATE RESENDER");
+            resender.execute(in);
+            Log.d("MYERROR", "START RESENDER");
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("Не удалось установить соединение!");
             e.printStackTrace();
@@ -64,112 +72,84 @@ public class ConsoleClient {
         protected Socket doInBackground(Void... voids) {
             Socket s = null;
             try {
+                Log.d("MYERROR", "TRY");
                 s = new Socket(IP, PORT);
+                Log.d("MYERROR", "TRY END");
             } catch (IOException e) {
+                Log.d("MYERROR", "CATCH");
+                System.exit(1);
                 e.printStackTrace();
             }
-
             return s;
         }
     }
 
-    private class Resender extends AsyncTask<BufferedReader, Void, Void> {
+    private class Resender extends AsyncTask<BufferedReader, JSONObject, Void> {
 
         @Override
         protected Void doInBackground(BufferedReader... bufferedReaders) {
             BufferedReader bufferedReader = bufferedReaders[0];
 
             try {
-                while (stoped) {
-
-                    if (!stoped) {
-                        Log.d("MYERROR", "IF DONE");
-                        return null;
-                    }
-
-                    String str = in.readLine();
-
+                while (!isCancelled()) {
+                    Log.d("MYERROR", "ЦИКЛЛЛЛЛ");
+                    String str = bufferedReader.readLine();
                     JSONObject message = (JSONObject) JSONValue.parse(str);
-
-
-                    if (message.get("type").equals("3")) {
-                        checkUser(message.get("response").toString());
-                    }
-
-                    if (message.get("type").equals("1")) {
-
-                        String name = message.get("name").toString();
-                        String text = message.get("text").toString();
-                        Integer color = Integer.parseInt(message.get("color").toString());
-                        showMassage(name, text);
-
-                    }
+                    Log.d("MYERROR", String.valueOf(isCancelled()) + " 1");
+                    publishProgress(message);
+                    Log.d("MYERROR", String.valueOf(isCancelled()) + " 2");
                 }
                 Log.d("MYERROR", "DONE");
-            }
-            catch (IOException e){
+            } catch (IOException e) {
                 Log.d("MYERROR", "Не получилось получить сообщение");
                 e.printStackTrace();
             }
+            Log.d("MYERROR", "END");
             return null;
-        }
-    }
-
-    private class ConsoleResender extends Thread {
-
-        private BufferedReader in;
-
-        private ConsoleResender(BufferedReader in) {
-            this.in = in;
         }
 
         @Override
-        public void run() {
-            try {
-                while (stoped) {
+        protected void onProgressUpdate(JSONObject... values) {
+            super.onProgressUpdate();
+            checkMessage(values[0]);
+        }
+    }
 
-                    if (!stoped) {
-                        Log.d("MYERROR", "DONE");
-                        return;
-                    }
-
-                    String str = in.readLine();
-
-                    JSONObject message = (JSONObject) JSONValue.parse(str);
-
-
-                    if (message.get("type").equals("3")) {
-                        checkUser(message.get("response").toString());
-                    }
-
-                    if (message.get("type").equals("1")) {
-
-                        String name = message.get("name").toString();
-                        String text = message.get("text").toString();
-                        Integer color = Integer.parseInt(message.get("color").toString());
-                        showMassage(name, text);
-
-                    }
-                    System.out.println(stoped);
-                }
-
-            } catch (IOException e) {
-                System.err.println("Ошибка при получении сообщения.");
-                e.printStackTrace();
-            }
+    private void checkMessage(JSONObject message) {
+        if (message.get("type").equals("3")) {
+            checkUser(message.get("response").toString());
         }
 
+        if (logged) {
+            if (message.get("type").equals("1")) {
 
+                String name = message.get("name").toString();
+                String text = message.get("text").toString();
+                Integer color = Integer.parseInt(message.get("color").toString());
+                showMassage(name, text, color);
+            }
+
+            try {
+                if (message.get("type").equals("2")) {
+                    Log.d("MYERROR", "SERVER");
+                    String text = message.get("text").toString();
+                    showMassage("SERVER", text, 9);
+                }
+            }
+            catch (Exception e){
+                Log.d("MYERROR", "Не вышло:(");
+            }
+
+        }
     }
 
     private void checkUser(String text) {
         if (text.equals("-1")) {
             wrongPass();
-        }
-
-        if (text.equals("-2")) {
+        } else if (text.equals("-2")) {
             userAlreadyOnServer();
         } else {
+            logged = true;
             goToChat();
         }
     }
@@ -186,19 +166,17 @@ public class ConsoleClient {
         ((MainActivity) activities.get("MainActivity")).goToChat();
     }
 
-    private void showMassage(final String name, final String text) {
+    private void showMassage(final String name, final String text, final int color) {
+        ((ChatActivity) activities.get("ChatActivity")).showMassage(name, text, color);
+    }
 
-        System.out.println(Thread.currentThread());
-        System.out.println(Thread.activeCount());
-
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                ((ChatActivity) activities.get("ChatActivity")).showMassage(name, text);
-            }
-        };
-        ((ChatActivity) activities.get("ChatActivity")).runOnUiThread(r);
-        System.out.println(Thread.currentThread());
+    public void destroy() {
+        Log.d("MYERROR", "START DESTROY");
+        logged = false;
+        firstClick = true;
+        resender.cancel(true);
+        sendMessage(JsonHandler.getString("До встречи!"));
+        Log.d("MYERROR", "END DESTROY");
     }
 
 }
