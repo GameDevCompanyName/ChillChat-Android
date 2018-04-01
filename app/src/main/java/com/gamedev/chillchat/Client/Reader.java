@@ -11,20 +11,16 @@ import java.util.Queue;
 
 import static com.gamedev.chillchat.Manager.activities;
 
-public class Reader extends AsyncTask<Socket, String, Void> {
-
-    private BufferedReader in;
-    private PrintWriter out;
+public class Reader extends AsyncTask<BufferedReader, String, Void> {
 
     @Override
-    protected Void doInBackground(Socket... sockets) {
-        Socket socket = sockets[0];
+    protected Void doInBackground(BufferedReader... bufferedReaders) {
+        BufferedReader in = bufferedReaders[0];
         try {
             Log.d("MYERROR", "POLUCHILOS");
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), Charset.forName("UTF-8")));
-            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), Charset.forName("UTF-8")), true);
             while (!isCancelled()) {
                 String str = in.readLine();
+                Log.d("MYERROR", "READ");
                 publishProgress(str);
             }
             Log.d("MYERROR", "DONE");
@@ -42,23 +38,6 @@ public class Reader extends AsyncTask<Socket, String, Void> {
         Log.d("MYERROR", "PROGRESS");
         if (values.length != 0)
             ClientMessage.read(values[0]);
-    }
-
-    public Sender getSenderClass() {
-        return new Sender();
-    }
-
-    public class Sender extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            Log.d("MYERROR", "WRITE");
-            while (out == null) {
-            }
-            for (String s : strings)
-                out.println(s);
-            return null;
-        }
     }
 
 }

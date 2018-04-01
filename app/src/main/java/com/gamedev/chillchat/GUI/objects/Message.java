@@ -16,7 +16,7 @@ import com.gamedev.chillchat.R;
 
 import static com.gamedev.chillchat.Manager.lastName;
 
-public class Massage extends LinearLayout {
+public class Message extends LinearLayout {
 
     private String name, text;
     private int color;
@@ -25,7 +25,7 @@ public class Massage extends LinearLayout {
 
     private ChatActivity chatActivity;
 
-    public Massage(ChatActivity chatActivity, String name, String text, int color) {
+    public Message(ChatActivity chatActivity, String name, String text, int color) {
         super(chatActivity);
         this.chatActivity = chatActivity;
         this.name = name;
@@ -69,7 +69,7 @@ public class Massage extends LinearLayout {
         addView(second, lpText);
     }
 
-    public Massage(ChatActivity chatActivity, String text){
+    public Message(ChatActivity chatActivity, String text){
         super(chatActivity);
         this.chatActivity = chatActivity;
         this.text = text;

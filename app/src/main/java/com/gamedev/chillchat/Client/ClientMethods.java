@@ -12,11 +12,11 @@ public class ClientMethods {
     }
 
     public static void loginWrongErrorReceived() {
-//        clientWindow.passWrongError();
+        ((MainActivity) activities.get("MainActivity")).wrongPass();
     }
 
     public static void loginAlreadyErrorReceived() {
-//        clientWindow.userAlreadyOnline();
+        ((MainActivity) activities.get("MainActivity")).userAlreadyOnline();
     }
 
     public static void loginSuccessReceived() {

@@ -4,21 +4,24 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.gamedev.chillchat.GUI.MainActivity;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 import static com.gamedev.chillchat.Manager.activities;
+import static com.gamedev.chillchat.Manager.client;
 
-public class Connection extends AsyncTask<String, Void, Socket> {
-
-    private Socket socket;
-
-    private boolean connect = false;
-    private int countConnect = 5;
+public class Connection extends AsyncTask<String, Void, Object[]> {
 
     @Override
-    protected Socket doInBackground(String... strings) {
+    protected Object[] doInBackground(String... strings) {
+        Socket socket = null;
+        BufferedReader in = null;
+        PrintWriter out = null;
+
+        boolean connect = false;
+        int countConnect = -1;
 
         String ip = strings[0];
         int port = Integer.parseInt(strings[1]);
@@ -28,7 +31,9 @@ public class Connection extends AsyncTask<String, Void, Socket> {
             socket = new Socket();
             InetSocketAddress sa = new InetSocketAddress(ip, port);
             try {
-                socket.connect(sa, 5000);
+                socket.connect(sa, 1000);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), Charset.forName("UTF-8")));
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), Charset.forName("UTF-8")), true);
                 connect = true;
             } catch (IOException e) {
                 Log.d("MYERROR", "NO CONNECT");//TODO
@@ -37,12 +42,14 @@ public class Connection extends AsyncTask<String, Void, Socket> {
             i++;
         }
         if (!connect) return null;
-        return socket;
+        return new Object[]{socket, in, out};
     }
 
     @Override
-    protected void onPostExecute(Socket socket) {
-        super.onPostExecute(socket);
-        ((MainActivity) activities.get("MainActivity")).getClient().setSocket(socket);
+    protected void onPostExecute(Object... objects) {
+        super.onPostExecute(objects);
+        client.setSocket((Socket) objects[0]);
+        client.setIn((BufferedReader) objects[1]);
+        client.setOut((PrintWriter) objects[2]);
     }
 }
