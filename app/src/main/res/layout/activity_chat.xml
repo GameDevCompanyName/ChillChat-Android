@@ -8,11 +8,16 @@
             android:layout_height="wrap_content"
             tools:ignore="InefficientWeight"
             android:id="@+id/scrollView"
-            android:background="#0F1113" android:layout_weight="1.00">
+            android:background="#0F1113"
+            android:layout_weight="1.00">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="466dp" android:id="@+id/layout" android:isScrollContainer="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_height="466dp"
+                android:id="@+id/layout"
+                android:isScrollContainer="true"
                 android:scrollbars="vertical"
         >
         </LinearLayout>
@@ -35,13 +40,15 @@
                 android:layout_gravity="bottom"
                 android:textSize="20sp"
                 android:textColorHint="#ef5350"
-                android:textColor="#ef5350" tools:ignore="InefficientWeight"/>
+                android:textColor="#ef5350"
+                tools:ignore="InefficientWeight"/>
         <Button
                 android:text="@string/send"
                 android:layout_width="45dp"
                 android:layout_height="40dp"
                 android:id="@+id/button"
                 android:background="@drawable/myrect"
-                android:textColor="#ffebee" android:layout_gravity="top"/>
+                android:textColor="#ffebee"
+                android:layout_gravity="top"/>
     </LinearLayout>
 </LinearLayout>

@@ -10,11 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.gamedev.chillchat.Client.ClientMessage;
-import com.gamedev.chillchat.Client.ConsoleClient;
+import com.gamedev.chillchat.client.utils.ClientMessage;
 import com.gamedev.chillchat.R;
-
-import java.io.IOException;
 
 import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.makeText;
@@ -36,23 +33,7 @@ public class MainActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (client.isConnection()) {
-                    if (client.isFirstClick()) {
-                        client.start();
-                        client.setFirstClick(false);
-                    }
-                    if (login.getText().toString().equals("") || pass.getText().toString().equals("")) {
-                        Toast.makeText(MainActivity.this,
-                                "Логин или пароль не должны быть пустыми",
-                                LENGTH_LONG).show();
-                    } else
-                        client.sendMessage(ClientMessage.versionSend(VERSION),
-                                ClientMessage.loginAttemptSend(login.getText().toString(), pass.getText().toString()));
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            "Не удалось установить соединение",
-                            LENGTH_LONG).show();
-                }
+                check();
             }
         });
         login = findViewById(R.id.login_edit);
@@ -105,6 +86,27 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this,
                 "Пользователь уже в сети",
                 LENGTH_LONG).show();
+    }
+
+    private void check(){
+        if (client.isConnection()) {
+            if (client.isFirstClick()) {
+                client.start();
+                client.setFirstClick(false);
+            }
+            if (login.getText().toString().equals("") || pass.getText().toString().equals("")) {
+                Toast.makeText(MainActivity.this,
+                        "Логин или пароль не должны быть пустыми",
+                        LENGTH_LONG).show();
+            } else
+                myName = login.getText().toString();
+                client.sendMessage(ClientMessage.versionSend(VERSION),
+                        ClientMessage.loginAttemptSend(login.getText().toString(), pass.getText().toString()));
+        } else {
+            Toast.makeText(MainActivity.this,
+                    "Не удалось установить соединение",
+                    LENGTH_LONG).show();
+        }
     }
 
     @Override

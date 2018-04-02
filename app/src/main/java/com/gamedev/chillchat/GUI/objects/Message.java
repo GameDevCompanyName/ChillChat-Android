@@ -1,128 +1,76 @@
 package com.gamedev.chillchat.GUI.objects;
 
 
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.util.Linkify;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.gamedev.chillchat.GUI.ChatActivity;
 import com.gamedev.chillchat.R;
 
+import static com.gamedev.chillchat.Manager.activities;
+import static com.gamedev.chillchat.Manager.chooseColor;
 import static com.gamedev.chillchat.Manager.lastName;
 
 public class Message extends LinearLayout {
 
-    private String name, text;
-    private int color;
+    private TextView nameView, textView;
 
-    private TextView first, second;
+    public Message(Context context, String name, String text, int color) {
+        super(context);
+        ContextThemeWrapper nameStyle = new ContextThemeWrapper(context, R.style.NameStyle);
+        ContextThemeWrapper textStyle = new ContextThemeWrapper(context, R.style.TextStyle);
 
-    private ChatActivity chatActivity;
-
-    public Message(ChatActivity chatActivity, String name, String text, int color) {
-        super(chatActivity);
-        this.chatActivity = chatActivity;
-        this.name = name;
-        this.text = text;
-        this.color = color;
-        setOrientation(VERTICAL);
-        LayoutParams lm = new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lm.setMargins(20, 0, 20, 10);
-        setLayoutParams(lm);
-
-
-        LayoutParams lpName = new LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        LayoutParams lpText = new LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lpText.setMargins(30, 0, 0, 0);
-
+        int intColor = Color.parseColor(chooseColor(color));
         if (!lastName.equals(name)) {
-            first = new TextView(chatActivity);
-            first.setText(name);
-            first.setTextSize(23);
-            first.setTextColor(Color.parseColor(chooseColor(color)));
-            addView(first, lpName);
+            nameView = new TextView(nameStyle, null, 0);
+            nameView.setText(name);
+            nameView.setTextColor(intColor);
+            addView(nameView);
             lastName = name;
         }
+        int Alpha = (intColor >> 24) & 0xff; // or color »> 24
+        int Red = (intColor >> 16) & 0xff;
+        int Green = (intColor >> 8) & 0xff;
+        int Blue = (intColor ) & 0xff;
 
-        second = new TextView(chatActivity);
-        second.setText(text);
-        second.setTextSize(20);
-        second.setTextColor(Color.parseColor("#fafafa"));
-        Linkify.addLinks(second, Linkify.ALL);
+        textView = new TextView(textStyle, null, 0);
+        textView.setText(text);
+        textView.setTextColor(Color.parseColor("#fafafa"));
+        Linkify.addLinks(textView, Linkify.ALL);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             this.setBackground(Drawable.createFromPath(String.valueOf(R.drawable.back_message)));
         }
-        this.setBackgroundColor(Color.argb(50, 214, 76, 78));
-        addView(second, lpText);
+        this.setBackgroundColor(Color.argb(30, Red, Green, Blue));
+        addView(textView);
     }
 
     public Message(ChatActivity chatActivity, String text){
         super(chatActivity);
-        this.chatActivity = chatActivity;
-        this.text = text;
 
         LinearLayout.LayoutParams lpText = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        second = new TextView(chatActivity);
-        second.setText(text);
-        second.setTextSize(23);
-        second.setGravity(Gravity.CENTER);
-        second.setTextColor(Color.parseColor("#66bb6a"));
-        Linkify.addLinks(second, Linkify.ALL);
-        addView(second, lpText);
+        textView = new TextView(chatActivity);
+        textView.setText(text);
+        textView.setTextSize(23);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.parseColor("#66bb6a"));
+        Linkify.addLinks(textView, Linkify.ALL);
+        addView(textView, lpText);
         lastName = "SERVER";
-    }
-
-    private String chooseColor(int id) {
-        String result;
-        switch (id) {
-            case 1:
-                result = "#f44336";
-                break;
-            case 2:
-                result = "#3f51b5";
-                break;
-            case 3:
-                result = "#29b6f6";
-                break;
-            case 4:
-                result = "#ff5722";
-                break;
-            case 5:
-                result = "#4caf50";
-                break;
-            case 6:
-                result = "#8bc34a";
-                break;
-            case 7:
-                result = "#ffeb3b";
-                break;
-            case 8:
-                result = "#ec407a";
-                break;
-            case 9:
-                result = "#26a69a";
-                break;
-            default:
-                result = "#546e7a";
-                break;
-        }
-        return result;
     }
 
 }

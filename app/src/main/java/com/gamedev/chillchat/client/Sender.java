@@ -1,4 +1,4 @@
-package com.gamedev.chillchat.Client;
+package com.gamedev.chillchat.client;
 
 import android.os.AsyncTask;
 import android.util.Log;

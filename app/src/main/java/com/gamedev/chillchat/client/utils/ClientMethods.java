@@ -1,9 +1,11 @@
-package com.gamedev.chillchat.Client;
+package com.gamedev.chillchat.client.utils;
 
 import com.gamedev.chillchat.GUI.ChatActivity;
 import com.gamedev.chillchat.GUI.MainActivity;
 
 import static com.gamedev.chillchat.Manager.activities;
+import static com.gamedev.chillchat.Manager.myColor;
+import static com.gamedev.chillchat.Manager.myName;
 
 public class ClientMethods {
 
@@ -28,7 +30,11 @@ public class ClientMethods {
     }
 
     public static void userColorReceived(String login, String color) {
-//        clientWindow.userColorRecieved(login, color);
+        if (activities.get("ChatActivity") != null && login.equals(myName)) {
+            ((ChatActivity) activities.get("ChatActivity")).setUserColort(Integer.parseInt(color));
+        } else {
+            myColor = Integer.parseInt(color);
+        }
     }
 
     public static void userMessageReceived(String login, String message, String color) {

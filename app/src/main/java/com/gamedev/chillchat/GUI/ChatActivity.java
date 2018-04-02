@@ -4,25 +4,26 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import com.gamedev.chillchat.Client.ClientMessage;
+import com.gamedev.chillchat.client.utils.ClientMessage;
 import com.gamedev.chillchat.GUI.objects.Message;
 import com.gamedev.chillchat.R;
 
-import static com.gamedev.chillchat.Manager.activities;
-import static com.gamedev.chillchat.Manager.client;
+import static com.gamedev.chillchat.Manager.*;
 
 public class ChatActivity extends AppCompatActivity {
 
     private LinearLayout llmain;
     private Button send;
     private EditText input;
-
     private ScrollView scrollView;
+
+    private String userColor = "#ffffff";
 
 
     @Override
@@ -45,12 +46,14 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         input = findViewById(R.id.input_text);
+        input.setTextColor(Color.parseColor(chooseColor(myColor)));
         activities.put("ChatActivity", this);
     }
 
     public void showMassage(String name, String text, String color) {
         //TODO
-        final Message message = new Message(this, name, text, Integer.parseInt(color));
+        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.MessageStyle);
+        final Message message = new Message(themeWrapper, name, text, Integer.parseInt(color));
         final Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale_message);
         message.setOnTouchListener(new View.OnTouchListener() {
 
@@ -59,14 +62,14 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 message.startAnimation(animation);
-                if (revers){
-                    message.setBackgroundColor(Color.argb(50, 214, 76, 78));
-                    revers = false;
-                }
-                else{
-                    message.setBackgroundColor(Color.argb(50, 55, 168, 237));
-                    revers = true;
-                }
+//                if (revers){
+//                    message.setBackgroundColor(Color.argb(50, 214, 76, 78));
+//                    revers = false;
+//                }
+//                else{
+//                    message.setBackgroundColor(Color.argb(50, 55, 168, 237));
+//                    revers = true;
+//                }
                 return false;
             }
         });
@@ -94,6 +97,10 @@ public class ChatActivity extends AppCompatActivity {
     public void showMessage(String text) {
         llmain.addView(new Message(this, text));
         scrollView.fullScroll(View.FOCUS_DOWN);
+    }
+
+    public void setUserColort(int color){
+        this.userColor = chooseColor(color);
     }
 
     @Override

@@ -1,6 +1,7 @@
-package com.gamedev.chillchat.Client;
+package com.gamedev.chillchat.client;
 
 import android.os.AsyncTask;
+import com.gamedev.chillchat.client.utils.ClientMessage;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;

@@ -1,15 +1,13 @@
-package com.gamedev.chillchat.Client;
+package com.gamedev.chillchat.client;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import com.gamedev.chillchat.GUI.MainActivity;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-import static com.gamedev.chillchat.Manager.activities;
 import static com.gamedev.chillchat.Manager.client;
 
 public class Connection extends AsyncTask<String, Void, Object[]> {

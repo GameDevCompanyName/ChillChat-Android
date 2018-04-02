@@ -1,15 +1,10 @@
-package com.gamedev.chillchat.Client;
+package com.gamedev.chillchat.client;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import com.gamedev.chillchat.GUI.MainActivity;
+import com.gamedev.chillchat.client.utils.ClientMessage;
 
 import java.io.*;
-import java.net.Socket;
-import java.nio.charset.Charset;
-import java.util.Queue;
-
-import static com.gamedev.chillchat.Manager.activities;
 
 public class Reader extends AsyncTask<BufferedReader, String, Void> {
 
@@ -17,13 +12,11 @@ public class Reader extends AsyncTask<BufferedReader, String, Void> {
     protected Void doInBackground(BufferedReader... bufferedReaders) {
         BufferedReader in = bufferedReaders[0];
         try {
-            Log.d("MYERROR", "POLUCHILOS");
             while (!isCancelled()) {
                 String str = in.readLine();
-                Log.d("MYERROR", "READ");
                 publishProgress(str);
             }
-            Log.d("MYERROR", "DONE");
+            Log.d("MYERROR", "READER STOPED");
         } catch (IOException e) {
             //TODO
             Log.d("MYERROR", "Не получилось получить сообщение");
@@ -35,7 +28,6 @@ public class Reader extends AsyncTask<BufferedReader, String, Void> {
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate();
-        Log.d("MYERROR", "PROGRESS");
         if (values.length != 0)
             ClientMessage.read(values[0]);
     }

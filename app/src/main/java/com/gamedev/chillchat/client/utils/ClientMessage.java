@@ -1,4 +1,4 @@
-package com.gamedev.chillchat.Client;
+package com.gamedev.chillchat.client.utils;
 
 import android.util.Log;
 import org.json.simple.JSONObject;
