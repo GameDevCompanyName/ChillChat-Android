@@ -2,10 +2,12 @@
     <string name="app_name">ChillChat</string>
     <string name="sign_in_text">Login</string>
     <string name="pass_text">Password</string>
-    <string name="sign_in_button_text">Chill</string>
+    <string name="sign_in_button_text">C H I L L A X</string>
     <string name="enter_text">Enter text…</string>
     <string name="send">Send</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_title">Settings</string>
-    <string name="title_text">C h i l l  C h a t</string>
+    <string name="title_text">C h i l l   C h a t</string>
+    <string name="login_hint">L O G I N</string>
+    <string name="pass_hint">P A S S W O R D</string>
 </resources>
