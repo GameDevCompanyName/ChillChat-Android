@@ -6,4 +6,5 @@
     <color name="foreground_material_light">#c60505</color>
     <color name="accent_material_light">#f50000</color>
     <color name="back">#0592c6e6</color>
+    <color name="white">#ffffff</color>
 </resources>

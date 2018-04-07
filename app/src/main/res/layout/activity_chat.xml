@@ -13,9 +13,9 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_height="466dp"
                 android:id="@+id/layout"
                 android:isScrollContainer="true"
                 android:scrollbars="vertical"
@@ -42,13 +42,16 @@
                 android:textColorHint="#ef5350"
                 android:textColor="#ef5350"
                 tools:ignore="InefficientWeight"/>
-        <Button
-                android:text="@string/send"
+        <ImageButton
+                android:contentDescription="@string/send"
                 android:layout_width="45dp"
-                android:layout_height="40dp"
+                android:layout_height="38dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingRight="4dp"
+                android:src="@drawable/send_button"
                 android:id="@+id/button"
-                android:background="@drawable/myrect"
-                android:textColor="#ffebee"
+                android:background="@null"
                 android:layout_gravity="top"/>
     </LinearLayout>
 </LinearLayout>

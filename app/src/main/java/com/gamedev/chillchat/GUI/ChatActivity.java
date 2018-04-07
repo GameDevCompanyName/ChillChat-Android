@@ -19,7 +19,7 @@ import static com.gamedev.chillchat.Manager.*;
 public class ChatActivity extends AppCompatActivity {
 
     private LinearLayout llmain;
-    private Button send;
+    private ImageButton send;
     private EditText input;
     private ScrollView scrollView;
 
