@@ -15,9 +15,9 @@ public class Manager {
     public static ConsoleClient client = new ConsoleClient();
     public static HashMap<String, AppCompatActivity> activities = new HashMap<>();
 
-    public static String lastName = "TEST";
     public static String myName;
     public static int myColor;
+    public static String LOG = "MYERROR";
 
     public static String chooseColor(int id) {
         String result;

@@ -5,18 +5,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.gamedev.chillchat.GUI.message.ManagerMessages;
+import com.gamedev.chillchat.GUI.message.ServerMessage;
+import com.gamedev.chillchat.GUI.message.UserMessage;
 import com.gamedev.chillchat.client.utils.ClientMessage;
-import com.gamedev.chillchat.GUI.objects.Message;
 import com.gamedev.chillchat.R;
 
 import static com.gamedev.chillchat.Manager.*;
 
 public class ChatActivity extends AppCompatActivity {
+
+    private ManagerMessages managerMessages;
 
     private LinearLayout llmain;
     private Button send;
@@ -30,6 +33,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        managerMessages = new ManagerMessages();
 
         scrollView = findViewById(R.id.scrollView);
 
@@ -47,59 +52,47 @@ public class ChatActivity extends AppCompatActivity {
         });
         input = findViewById(R.id.input_text);
         input.setTextColor(Color.parseColor(chooseColor(myColor)));
+        input.setHintTextColor(Color.parseColor(chooseColor(myColor)));
         activities.put("ChatActivity", this);
     }
 
-    public void showMassage(String name, String text, String color) {
-        //TODO
+    public void showUserMessage(String name, String text, String color) {
+//        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.UserMessageStyle);
         ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.MessageStyle);
-        final Message message = new Message(themeWrapper, name, text, Integer.parseInt(color));
-        final Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale_message);
-        message.setOnTouchListener(new View.OnTouchListener() {
+        if (!managerMessages.getLastName().equals(name)) {
 
-            private boolean revers = false;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                message.startAnimation(animation);
-//                if (revers){
-//                    message.setBackgroundColor(Color.argb(50, 214, 76, 78));
-//                    revers = false;
-//                }
-//                else{
-//                    message.setBackgroundColor(Color.argb(50, 55, 168, 237));
-//                    revers = true;
-//                }
-                return false;
-            }
-        });
-//        message.setOnClickListener(new View.OnClickListener() {
-//
-//            private boolean revers = false;
-//
-//            @Override
-//            public void onClick(View v) {
-//                message.startAnimation(animation);
-//                if (revers){
-//                    message.setBackgroundColor(Color.argb(50, 214, 76, 78));
-//                    revers = false;
-//                }
-//                else{
-//                    message.setBackgroundColor(Color.argb(50, 55, 168, 237));
-//                    revers = true;
-//                }
-//            }
-//        });
-        llmain.addView(message);
+            final UserMessage userMessage = new UserMessage(themeWrapper, name, text, Integer.parseInt(color));
+            final Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale_message);
+            userMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    userMessage.startAnimation(animation);
+                }
+            });
+            managerMessages.setLastName(name);
+            managerMessages.setLastMessage(userMessage);
+            llmain.addView(userMessage);
+        } else
+            ((UserMessage) managerMessages.getLastMessage()).addText(text);
         scrollView.fullScroll(View.FOCUS_DOWN);
+
     }
 
-    public void showMessage(String text) {
-        llmain.addView(new Message(this, text));
+    public void showServerMessage(String text) {
+//        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.ServerMessageStyle);
+        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.MessageStyle);
+        if (!managerMessages.getLastName().equals("SERVER")) {
+            ServerMessage serverMessage = new ServerMessage(themeWrapper, text, managerMessages.getServerColor());
+            managerMessages.setLastName("SERVER");
+            managerMessages.setLastMessage(serverMessage);
+            llmain.addView(serverMessage);
+        } else
+            ((ServerMessage) managerMessages.getLastMessage()).addText(text);
         scrollView.fullScroll(View.FOCUS_DOWN);
+
     }
 
-    public void setUserColort(int color){
+    public void setUserColort(int color) {
         this.userColor = chooseColor(color);
     }
 

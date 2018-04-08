@@ -62,6 +62,9 @@ public class ClientMessage {
                         incomingMessage.get("first").toString()
                 );
                 break;
+            case "ping":
+                ClientMethods.serverEchoReceived();
+                break;
         }
 
     }
@@ -93,6 +96,12 @@ public class ClientMessage {
         JSONObject object = new JSONObject();
         object.put("type", "disconnect");
         object.put("first", reason);
+        return object.toJSONString();
+    }
+
+    public static String echoSend(){
+        JSONObject object = new JSONObject();
+        object.put("type", "pong");
         return object.toJSONString();
     }
 

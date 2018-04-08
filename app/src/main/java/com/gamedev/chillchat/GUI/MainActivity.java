@@ -14,7 +14,6 @@ import com.gamedev.chillchat.client.utils.ClientMessage;
 import com.gamedev.chillchat.R;
 
 import static android.widget.Toast.LENGTH_LONG;
-import static android.widget.Toast.makeText;
 import static com.gamedev.chillchat.Manager.*;
 
 
@@ -94,19 +93,29 @@ public class MainActivity extends AppCompatActivity {
                 client.start();
                 client.setFirstClick(false);
             }
-            if (login.getText().toString().equals("") || pass.getText().toString().equals("")) {
+            if (login.getText().toString().equals("") ||
+                    pass.getText().toString().equals("") ||
+                    login.getText().toString().contains(" ") ||
+                    login.getText().toString().contains("/") ||
+                    login.getText().toString().contains("\\") ||
+                    pass.getText().toString().contains("/") ||
+                    pass.getText().toString().contains("\\")) {
                 Toast.makeText(MainActivity.this,
-                        "Логин или пароль не должны быть пустыми",
+                        "Логин или пароль не должны быть пустыми или содержать недопустимые символы",
                         LENGTH_LONG).show();
             } else
                 myName = login.getText().toString();
-                client.sendMessage(ClientMessage.versionSend(VERSION),
-                        ClientMessage.loginAttemptSend(login.getText().toString(), pass.getText().toString()));
+                client.sendMessage(ClientMessage.versionSend(VERSION), ClientMessage.loginAttemptSend(login.getText().toString(), pass.getText().toString()));
+
         } else {
             Toast.makeText(MainActivity.this,
                     "Не удалось установить соединение",
                     LENGTH_LONG).show();
         }
+    }
+
+    public void sendVersion(){
+        client.sendMessage(ClientMessage.versionSend(VERSION));
     }
 
     @Override
@@ -117,9 +126,5 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("MYERROR", "LEHA DEBIL");
         }
-
     }
-
-
-
 }

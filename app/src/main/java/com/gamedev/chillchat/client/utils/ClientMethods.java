@@ -1,11 +1,11 @@
 package com.gamedev.chillchat.client.utils;
 
+import android.accounts.NetworkErrorException;
+import android.util.Log;
 import com.gamedev.chillchat.GUI.ChatActivity;
 import com.gamedev.chillchat.GUI.MainActivity;
 
-import static com.gamedev.chillchat.Manager.activities;
-import static com.gamedev.chillchat.Manager.myColor;
-import static com.gamedev.chillchat.Manager.myName;
+import static com.gamedev.chillchat.Manager.*;
 
 public class ClientMethods {
 
@@ -38,15 +38,21 @@ public class ClientMethods {
     }
 
     public static void userMessageReceived(String login, String message, String color) {
-        ((ChatActivity) activities.get("ChatActivity")).showMassage(login, message, color);
+        ((ChatActivity) activities.get("ChatActivity")).showUserMessage(login, message, color);
     }
 
     public static void userActionReceived(String login, String action) {
         //TODO
     }
 
+    public static void userDisconnectReceived(String reason) {
+//        clientWindow.disconnectedByReason(reason);
+//        client.destroy();
+    }
+
     public static void serverMessageReceived(String message) {
-        ((ChatActivity) activities.get("ChatActivity")).showMessage(message);
+        if (activities.get("ChatActivity") != null)
+            ((ChatActivity) activities.get("ChatActivity")).showServerMessage(message);
     }
 
     public static void serverEventReceived(String event) {
@@ -54,20 +60,25 @@ public class ClientMethods {
     }
 
     public static void serverUserKickedReceived(String login, String reason) {
-//        clientWindow.userKickedRecieved(login, reason);
-    }
-
-    public static void userDisconnectReceived(String reason) {
-//        clientWindow.disconnectedByReason(reason);
+        serverMessageReceived(login + "по причине: " + reason);
     }
 
     public static void serverUserLoginReceived(String login) {
-        if ((ChatActivity) activities.get("ChatActivity") != null)
-            ((ChatActivity) activities.get("ChatActivity")).showMessage(login + " зашел в чатик");
+        serverMessageReceived(login + " подключился(-ась)");
     }
 
     public static void serverUserDisconnectReceived(String login) {
-        ((ChatActivity) activities.get("ChatActivity")).showMessage(login + " ушел из чатика");
+        serverMessageReceived(login + " отключился(-ась)");
     }
 
+    public static void serverEchoReceived() {
+        if (client.getSocket() != null) {
+            try {
+                Log.d(LOG, "PONG");
+                client.sendMessage(ClientMessage.echoSend());
+            } catch (NullPointerException e) {
+                Log.d("MYERROR", "Не удалось отпарвить PONG");
+            }
+        }
+    }
 }
