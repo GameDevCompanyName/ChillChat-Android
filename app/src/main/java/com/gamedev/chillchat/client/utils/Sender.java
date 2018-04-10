@@ -5,6 +5,8 @@ import android.util.Log;
 
 import java.io.PrintWriter;
 
+import static com.gamedev.chillchat.Manager.LOG;
+
 public class Sender extends AsyncTask<Object, Void, Void> {
 
     @Override
@@ -12,8 +14,10 @@ public class Sender extends AsyncTask<Object, Void, Void> {
         Log.d("MYERROR", "WRITE");
         PrintWriter out = (PrintWriter) objects[0];
         String[] strings = (String[]) objects[1];
-        for (String s : strings)
+        for (String s : strings) {
+            Log.d(LOG, s);
             out.println(s);
+        }
         return null;
     }
 }

@@ -10,7 +10,6 @@ public class ClientMessage {
 
         JSONObject incomingMessage = (JSONObject) JSONValue.parse(input);
         System.out.println(incomingMessage);
-        Log.d("MYERROR", incomingMessage.toJSONString());
         String methodName = (String) incomingMessage.get("type");
 
         switch (methodName){

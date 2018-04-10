@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.gamedev.chillchat.client.utils.ClientMessage;
 import com.gamedev.chillchat.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static android.widget.Toast.LENGTH_LONG;
 import static com.gamedev.chillchat.Manager.*;
 
@@ -76,13 +79,10 @@ public class MainActivity extends AppCompatActivity {
                 client.start();
                 client.setFirstClick(false);
             }
-            if (login.getText().toString().equals("") ||
-                    pass.getText().toString().equals("") ||
-                    login.getText().toString().contains(" ") ||
-                    login.getText().toString().contains("/") ||
-                    login.getText().toString().contains("\\") ||
-                    pass.getText().toString().contains("/") ||
-                    pass.getText().toString().contains("\\")) {
+            Pattern p = Pattern.compile("[^А-Яа-яA-Za-z0-9_-]");
+            Matcher mL = p.matcher(login.getText().toString());
+            Matcher mP = p.matcher(pass.getText().toString());
+            if (login.getText().toString().equals("") || pass.getText().toString().equals("") || mL.find() || mP.find()) {
                 Toast.makeText(MainActivity.this,
                         "Логин или пароль не должны быть пустыми или содержать недопустимые символы",
                         LENGTH_LONG).show();
@@ -96,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
                     "Не удалось установить соединение",
                     LENGTH_LONG).show();
         }
-    }
-
-    public void sendVersion() {
-        client.sendMessage(ClientMessage.versionSend(VERSION));
     }
 
     @Override

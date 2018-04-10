@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
+import static com.gamedev.chillchat.Manager.LOG;
 import static com.gamedev.chillchat.Manager.activities;
 import static com.gamedev.chillchat.Manager.client;
 
@@ -35,6 +36,7 @@ public class Connection extends AsyncTask<String, Void, Object[]> {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream(), Charset.forName("UTF-8")));
                 out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), Charset.forName("UTF-8")), true);
                 connect = true;
+                Log.d(LOG, "CONNECTION CREATE");
             } catch (IOException e) {
                 Log.d("MYERROR", "NO CONNECT");//TODO
                 e.printStackTrace();

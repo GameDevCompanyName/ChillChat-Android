@@ -1,6 +1,7 @@
 package com.gamedev.chillchat.client;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import com.gamedev.chillchat.client.utils.ClientMessage;
 import com.gamedev.chillchat.client.utils.Connection;
 import com.gamedev.chillchat.client.utils.Reader;
@@ -9,6 +10,8 @@ import com.gamedev.chillchat.client.utils.Sender;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import static com.gamedev.chillchat.Manager.LOG;
 
 public class ConsoleClient {
 
@@ -42,6 +45,7 @@ public class ConsoleClient {
     public void destroy() {//TODO
         sendMessage(ClientMessage.disconnectSend("Fuck off)"));
         reader.cancel(false);
+        Log.d(LOG, "DESTROY");
     }
 
     public void setSocket(Socket socket) {

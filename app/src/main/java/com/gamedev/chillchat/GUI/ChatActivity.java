@@ -99,9 +99,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.d("MYERROR", "PRESS BACK");
         client.destroy();
-//        System.exit(1);
-        Log.d("MYERROR", "PRESS BACK END");
     }
 }
