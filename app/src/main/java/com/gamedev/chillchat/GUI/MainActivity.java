@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 LENGTH_LONG).show();
     }
 
-    private void check(){
+    private void check() {
         if (client.isConnection()) {
             if (client.isFirstClick()) {
                 client.start();
@@ -86,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,
                         "Логин или пароль не должны быть пустыми или содержать недопустимые символы",
                         LENGTH_LONG).show();
-            } else
+            } else {
                 myName = login.getText().toString();
                 client.sendMessage(ClientMessage.versionSend(VERSION), ClientMessage.loginAttemptSend(login.getText().toString(), pass.getText().toString()));
+            }
 
         } else {
             Toast.makeText(MainActivity.this,
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sendVersion(){
+    public void sendVersion() {
         client.sendMessage(ClientMessage.versionSend(VERSION));
     }
 
