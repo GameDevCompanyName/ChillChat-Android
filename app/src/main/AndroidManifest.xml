@@ -27,11 +27,6 @@
                 android:name=".GUI.ChatActivity"
                 android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".GUI.MenuActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/Theme.AppCompat.Light.Dialog"
-        android:label="@string/menu_title">
-        </activity>
     </application>
 
 </manifest>

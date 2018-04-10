@@ -1,6 +1,5 @@
 package com.gamedev.chillchat.client.utils;
 
-import android.accounts.NetworkErrorException;
 import android.util.Log;
 import com.gamedev.chillchat.GUI.ChatActivity;
 import com.gamedev.chillchat.GUI.MainActivity;
@@ -30,10 +29,15 @@ public class ClientMethods {
     }
 
     public static void userColorReceived(String login, String color) {
-        if (activities.get("ChatActivity") != null && login.equals(myName)) {
-            ((ChatActivity) activities.get("ChatActivity")).setUserColort(Integer.parseInt(color));
+//        if (activities.get("ChatActivity") != null && login.equals(myName)) {
+//            ((ChatActivity) activities.get("ChatActivity")).setUserColor(Integer.parseInt(color));
+//        } else {
+//            myColor = Integer.parseInt(color);
+//        }
+        if (activities.get("ChatActivity") != null && login.equals(myName)){
+            ((ChatActivity) activities.get("ChatActivity")).changeColor(chooseColor(Integer.parseInt(color)));
         } else {
-            myColor = Integer.parseInt(color);
+            myColor = chooseColor(Integer.parseInt(color));
         }
     }
 

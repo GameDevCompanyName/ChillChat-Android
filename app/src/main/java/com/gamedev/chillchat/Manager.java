@@ -16,7 +16,7 @@ public class Manager {
     public static HashMap<String, AppCompatActivity> activities = new HashMap<>();
 
     public static String myName;
-    public static int myColor;
+    public static String myColor = "#ffffff";
     public static String LOG = "MYERROR";
 
     public static String chooseColor(int id) {

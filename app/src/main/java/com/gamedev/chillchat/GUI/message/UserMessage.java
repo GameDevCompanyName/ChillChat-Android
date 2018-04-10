@@ -26,11 +26,7 @@ public class UserMessage extends LinearLayout{
         nameStyle= new ContextThemeWrapper(context, R.style.NameStyle);
         textStyle = new ContextThemeWrapper(context, R.style.TextStyle);
 
-        intColor = Color.parseColor(chooseColor(color));
-        alpha = (intColor >> 24) & 0xff; // or color »> 24
-        red = (intColor >> 16) & 0xff;
-        green = (intColor >> 8) & 0xff;
-        blue = (intColor ) & 0xff;
+        toARGB(chooseColor(color));
 
         nameView = new TextView(nameStyle, null, 0);
         nameView.setText(name);
@@ -53,5 +49,19 @@ public class UserMessage extends LinearLayout{
         textView.setTextColor(Color.WHITE);
         Linkify.addLinks(textView, Linkify.ALL);
         addView(textView);
+    }
+
+    public void changeColor(String color){
+        toARGB(color);
+        nameView.setTextColor(intColor);
+        setBackgroundColor(Color.argb(30, red, green, blue));
+    }
+
+    private void toARGB(String color){
+        intColor = Color.parseColor(color);
+        alpha = (intColor >> 24) & 0xff; // or color »> 24
+        red = (intColor >> 16) & 0xff;
+        green = (intColor >> 8) & 0xff;
+        blue = (intColor ) & 0xff;
     }
 }

@@ -26,7 +26,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText input;
     private ScrollView scrollView;
 
-    private String userColor = "#ffffff";
+    private String userColor = myColor;
 
 
     @Override
@@ -51,8 +51,8 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         input = findViewById(R.id.input_text);
-        input.setTextColor(Color.parseColor(chooseColor(myColor)));
-        input.setHintTextColor(Color.parseColor(chooseColor(myColor)));
+        input.setTextColor(Color.parseColor(userColor));
+        input.setHintTextColor(Color.parseColor(userColor));
         activities.put("ChatActivity", this);
     }
 
@@ -60,7 +60,6 @@ public class ChatActivity extends AppCompatActivity {
 //        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.UserMessageStyle);
         ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.MessageStyle);
         if (!managerMessages.getLastName().equals(name)) {
-
             final UserMessage userMessage = new UserMessage(themeWrapper, name, text, Integer.parseInt(color));
             final Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale_message);
             userMessage.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +91,18 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    public void setUserColort(int color) {
-        this.userColor = chooseColor(color);
+    public void changeColor(String color) {
+        userColor = color;
+        for (int i = 0; i< llmain.getChildCount(); i++){
+            try {
+                UserMessage linearLayout = (UserMessage) llmain.getChildAt(i);
+                linearLayout.changeColor(userColor);
+            } catch (Exception e){
+                Log.d(LOG, "NOT USER MESSAGE");
+            }
+        }
+        input.setTextColor(Color.parseColor(userColor));
+        input.setHintTextColor(Color.parseColor(userColor));
     }
 
     @Override
