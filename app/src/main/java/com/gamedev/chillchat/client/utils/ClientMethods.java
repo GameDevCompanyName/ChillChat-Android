@@ -29,11 +29,6 @@ public class ClientMethods {
     }
 
     public static void userColorReceived(String login, String color) {
-//        if (activities.get("ChatActivity") != null && login.equals(myName)) {
-//            ((ChatActivity) activities.get("ChatActivity")).setUserColor(Integer.parseInt(color));
-//        } else {
-//            myColor = Integer.parseInt(color);
-//        }
         if (activities.get("ChatActivity") != null && login.equals(myName)){
             ((ChatActivity) activities.get("ChatActivity")).changeColor(chooseColor(Integer.parseInt(color)));
         } else {
@@ -64,7 +59,7 @@ public class ClientMethods {
     }
 
     public static void serverUserKickedReceived(String login, String reason) {
-        serverMessageReceived(login + "по причине: " + reason);
+        serverMessageReceived(login + " отключен(-а) по причине: " + reason);
     }
 
     public static void serverUserLoginReceived(String login) {
