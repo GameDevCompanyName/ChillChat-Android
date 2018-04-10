@@ -73,7 +73,6 @@ public class ClientMethods {
     public static void serverEchoReceived() {
         if (client.getSocket() != null) {
             try {
-                Log.d(LOG, "PONG");
                 client.sendMessage(ClientMessage.echoSend());
             } catch (NullPointerException e) {
                 Log.d("MYERROR", "Не удалось отпарвить PONG");
