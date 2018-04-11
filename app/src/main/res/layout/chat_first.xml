@@ -14,7 +14,7 @@
                 android:layout_width="match_parent"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_height="466dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/layout"
                 android:isScrollContainer="true"
                 android:scrollbars="vertical"

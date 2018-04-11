@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
@@ -44,7 +45,33 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
 
         scrollView = findViewById(R.id.scrollView);
 
+
         llmain = findViewById(R.id.layout);
+        llmain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                scrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+
+//        llmain.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+//            @Override
+//            public void onChildViewAdded(View parent, View child) {
+//                Log.d(LOG, "DONE");
+//                try {
+//                    scrollView.fullScroll(View.FOCUS_DOWN);
+//                } catch (Exception e){
+//                    Log.d(LOG, "Не получилось прокрутить");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onChildViewRemoved(View parent, View child) {
+//
+//            }
+//        });
+
         send = findViewById(R.id.button);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,12 +104,19 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
                     userMessage.startAnimation(animation);
                 }
             });
+//            userMessage.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//                @Override
+//                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                    Log.d(LOG, "CHANGE");
+//                    scrollView.fullScroll(View.FOCUS_DOWN);
+//                }
+//            });
             managerMessages.setLastName(name);
             managerMessages.setLastMessage(userMessage);
             llmain.addView(userMessage);
         } else
             ((UserMessage) managerMessages.getLastMessage()).addText(text);
-        scrollView.fullScroll(View.FOCUS_DOWN);
+//        scrollView.fullScroll(View.FOCUS_DOWN);
 
     }
 
@@ -96,7 +130,7 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
             llmain.addView(serverMessage);
         } else
             ((ServerMessage) managerMessages.getLastMessage()).addText(text);
-        scrollView.fullScroll(View.FOCUS_DOWN);
+//        scrollView.fullScroll(View.FOCUS_DOWN);
 
     }
 
