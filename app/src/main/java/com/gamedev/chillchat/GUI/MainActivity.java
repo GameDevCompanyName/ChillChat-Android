@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToChat() {
         Intent intent = new Intent(this, ChatActivity.class);
         this.startActivity(intent);
+        this.overridePendingTransition(R.anim.activity_main_in, R.anim.activity_main_out);
     }
 
     public void wrongPass() {

@@ -30,7 +30,7 @@ public class ClientMethods {
 
     public static void userColorReceived(String login, String color) {
         if (activities.get("ChatActivity") != null && login.equals(myName)){
-            ((ChatActivity) activities.get("ChatActivity")).changeColor(chooseColor(Integer.parseInt(color)));
+            ((ChatActivity) activities.get("ChatActivity")).changeColorMessage(chooseColor(Integer.parseInt(color)));
         } else {
             myColor = chooseColor(Integer.parseInt(color));
         }

@@ -16,8 +16,9 @@
                 android:paddingRight="10dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/layout"
-                android:isScrollContainer="true"
                 android:scrollbars="vertical"
+                android:focusableInTouchMode="false"
+                android:isScrollContainer="false"
         >
         </LinearLayout>
     </ScrollView>

@@ -28,13 +28,12 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
 
     private ManagerMessages managerMessages;
 
-    private LinearLayout llmain;
+    private ScrollView scrollView;
+    private LinearLayout llmain, navHead;
     private Button send;
     private EditText input;
-    private ScrollView scrollView;
 
     private String userColor = myColor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,7 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
 
         scrollView = findViewById(R.id.scrollView);
 
+        navHead = findViewById(R.id.nav_head);
 
         llmain = findViewById(R.id.layout);
         llmain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -53,24 +53,6 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
-
-//        llmain.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
-//            @Override
-//            public void onChildViewAdded(View parent, View child) {
-//                Log.d(LOG, "DONE");
-//                try {
-//                    scrollView.fullScroll(View.FOCUS_DOWN);
-//                } catch (Exception e){
-//                    Log.d(LOG, "Не получилось прокрутить");
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onChildViewRemoved(View parent, View child) {
-//
-//            }
-//        });
 
         send = findViewById(R.id.button);
         send.setOnClickListener(new View.OnClickListener() {
@@ -86,10 +68,11 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
         input = findViewById(R.id.input_text);
         input.setTextColor(Color.parseColor(userColor));
         input.setHintTextColor(Color.parseColor(userColor));
-        activities.put("ChatActivity", this);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        activities.put("ChatActivity", this);
     }
 
     public void showUserMessage(String name, String text, String color) {
@@ -104,20 +87,11 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
                     userMessage.startAnimation(animation);
                 }
             });
-//            userMessage.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-//                @Override
-//                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-//                    Log.d(LOG, "CHANGE");
-//                    scrollView.fullScroll(View.FOCUS_DOWN);
-//                }
-//            });
             managerMessages.setLastName(name);
             managerMessages.setLastMessage(userMessage);
             llmain.addView(userMessage);
         } else
             ((UserMessage) managerMessages.getLastMessage()).addText(text);
-//        scrollView.fullScroll(View.FOCUS_DOWN);
-
     }
 
     public void showServerMessage(String text) {
@@ -130,11 +104,9 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
             llmain.addView(serverMessage);
         } else
             ((ServerMessage) managerMessages.getLastMessage()).addText(text);
-//        scrollView.fullScroll(View.FOCUS_DOWN);
-
     }
 
-    public void changeColor(String color) {
+    public void changeColorMessage(String color) {
         userColor = color;
         for (int i = 0; i < llmain.getChildCount(); i++) {
             try {
@@ -146,19 +118,13 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
         }
         input.setTextColor(Color.parseColor(userColor));
         input.setHintTextColor(Color.parseColor(userColor));
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        client.destroy();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
 
         int id = item.getItemId();
 
@@ -174,4 +140,11 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        client.destroy();
+    }
+
 }
