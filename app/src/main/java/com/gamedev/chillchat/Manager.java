@@ -9,8 +9,11 @@ public class Manager {
 
     public static final String VERSION = "AC0.1";
 
-    public static String IP = "192.168.10.142";  //138.68.74.16
-    public static int PORT = 16261; //1488  //16261
+    public static String IP = "192.168.10.142";
+    public static int PORT = 16261;
+
+//    public static String IP = "138.68.74.16";
+//    public static int PORT = 1488;
 
     public static ConsoleClient client = new ConsoleClient();
     public static HashMap<String, AppCompatActivity> activities = new HashMap<>();
