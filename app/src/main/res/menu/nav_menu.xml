@@ -3,34 +3,27 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_camera"
+                android:id="@+id/nav_main"
                 android:icon="@android:drawable/ic_menu_camera"
-                android:title="Import" />
+                android:title="@string/nav_main"
+                android:checked="true"/>
         <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_settings"
                 android:icon="@android:drawable/ic_menu_camera"
-                android:title="Gallery" />
-        <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@android:drawable/ic_menu_camera"
-                android:title="Slideshow" />
-        <item
-                android:id="@+id/nav_manage"
-                android:icon="@android:drawable/ic_menu_camera"
-                android:title="Tools" />
+                android:title="@string/nav_settings"/>
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                    android:id="@+id/nav_share"
-                    android:icon="@android:drawable/ic_menu_camera"
-                    android:title="Share" />
-            <item
-                    android:id="@+id/nav_send"
-                    android:icon="@android:drawable/ic_menu_camera"
-                    android:title="Send" />
-        </menu>
-    </item>
+    <!--<item android:title="Communicate">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_share"-->
+    <!--android:icon="@android:drawable/ic_menu_camera"-->
+    <!--android:title="Share" />-->
+    <!--<item-->
+    <!--android:id="@+id/nav_send"-->
+    <!--android:icon="@android:drawable/ic_menu_camera"-->
+    <!--android:title="Send" />-->
+    <!--</menu>-->
+    <!--</item>-->
 
 </menu>

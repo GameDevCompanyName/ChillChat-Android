@@ -2,9 +2,15 @@ package com.gamedev.chillchat.GUI;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,7 +23,7 @@ import com.gamedev.chillchat.R;
 
 import static com.gamedev.chillchat.Manager.*;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ManagerMessages managerMessages;
 
@@ -54,6 +60,9 @@ public class ChatActivity extends AppCompatActivity {
         input.setTextColor(Color.parseColor(userColor));
         input.setHintTextColor(Color.parseColor(userColor));
         activities.put("ChatActivity", this);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     public void showUserMessage(String name, String text, String color) {
@@ -93,11 +102,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public void changeColor(String color) {
         userColor = color;
-        for (int i = 0; i< llmain.getChildCount(); i++){
+        for (int i = 0; i < llmain.getChildCount(); i++) {
             try {
                 UserMessage linearLayout = (UserMessage) llmain.getChildAt(i);
                 linearLayout.changeColor(userColor);
-            } catch (Exception e){
+            } catch (Exception e) {
                 Log.d(LOG, "NOT USER MESSAGE");
             }
         }
@@ -109,5 +118,26 @@ public class ChatActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         client.destroy();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_main:
+                if (drawer.isDrawerOpen(GravityCompat.START))
+                    drawer.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.nav_settings:
+                Toast.makeText(this, "Clicked settings", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+        return true;
     }
 }
