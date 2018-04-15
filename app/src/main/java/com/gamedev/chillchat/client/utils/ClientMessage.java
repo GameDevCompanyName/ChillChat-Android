@@ -64,6 +64,12 @@ public class ClientMessage {
             case "ping":
                 ClientMethods.serverEchoReceived();
                 break;
+            case "userChangedRoom":
+                ClientMethods.userRoomChanged(
+                        incomingMessage.get("first").toString(),
+                        incomingMessage.get("second").toString()
+                );
+                break;
         }
 
     }
@@ -101,6 +107,13 @@ public class ClientMessage {
     public static String echoSend(){
         JSONObject object = new JSONObject();
         object.put("type", "pong");
+        return object.toJSONString();
+    }
+
+    public static String roomChangeRequestSend(String roomId){
+        JSONObject object = new JSONObject();
+        object.put("type", "joinRoom");
+        object.put("first", roomId);
         return object.toJSONString();
     }
 

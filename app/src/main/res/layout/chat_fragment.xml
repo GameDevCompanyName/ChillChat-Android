@@ -1,24 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-              android:layout_height="match_parent" android:orientation="vertical" android:weightSum="1">
+              android:layout_height="match_parent"
+              android:id="@+id/layout_chat" android:orientation="vertical" android:weightSum="1">
 
     <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             tools:ignore="InefficientWeight"
             android:id="@+id/scrollView"
-            android:background="#0F1113"
+            android:background="#281168"
             android:layout_weight="1.00">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout"
+                android:id="@+id/space_chat"
+                android:isScrollContainer="true"
                 android:scrollbars="vertical"
-                android:focusableInTouchMode="false"
-                android:isScrollContainer="false"
         >
         </LinearLayout>
     </ScrollView>
@@ -39,16 +39,22 @@
                 android:layout_weight="1"
                 android:layout_gravity="bottom"
                 android:textSize="20sp"
-                android:textColorHint="#ef5350"
-                android:textColor="#ef5350"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
                 tools:ignore="InefficientWeight"/>
-        <Button
-                android:text="@string/send"
+        <ImageButton
+                android:contentDescription="@string/send"
                 android:layout_width="45dp"
-                android:layout_height="40dp"
+                android:layout_height="36dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingRight="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/send_button"
                 android:id="@+id/button"
-                android:background="@drawable/myrect"
-                android:textColor="#ffebee"
-                android:layout_gravity="top"/>
+                android:background="@null"
+                android:layout_gravity="center_vertical"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,52 +1,49 @@
-package com.gamedev.chillchat.GUI;
+package com.gamedev.chillchat.GUI.fragments;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import com.gamedev.chillchat.GUI.message.ManagerMessages;
 import com.gamedev.chillchat.GUI.message.ServerMessage;
 import com.gamedev.chillchat.GUI.message.UserMessage;
-import com.gamedev.chillchat.client.utils.ClientMessage;
 import com.gamedev.chillchat.R;
+import com.gamedev.chillchat.client.utils.ClientMessage;
 
-import static com.gamedev.chillchat.Manager.*;
+import static com.gamedev.chillchat.Manager.LOG;
+import static com.gamedev.chillchat.Manager.client;
+import static com.gamedev.chillchat.Manager.myColor;
 
-public class ChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Chat extends Fragment{
 
     private ManagerMessages managerMessages;
 
     private ScrollView scrollView;
-    private LinearLayout llmain, navHead;
-    private Button send;
+    private LinearLayout llmain;
+    private ImageButton send;
     private EditText input;
 
     private String userColor = myColor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(LOG, "CREATE CHAT");
+
+        View view = inflater.inflate(R.layout.chat_fragment,
+                container, false);
 
         managerMessages = new ManagerMessages();
 
-        scrollView = findViewById(R.id.scrollView);
+        scrollView = view.findViewById(R.id.scrollView);
 
-        navHead = findViewById(R.id.nav_head);
-
-        llmain = findViewById(R.id.layout);
+        llmain = view.findViewById(R.id.space_chat);
         llmain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -54,7 +51,7 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        send = findViewById(R.id.button);
+        send = view.findViewById(R.id.button);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,22 +62,19 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
                 input.setText("");
             }
         });
-        input = findViewById(R.id.input_text);
+        input = view.findViewById(R.id.input_text);
         input.setTextColor(Color.parseColor(userColor));
         input.setHintTextColor(Color.parseColor(userColor));
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        activities.put("ChatActivity", this);
+        return view;
     }
 
     public void showUserMessage(String name, String text, String color) {
 //        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.UserMessageStyle);
-        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.MessageStyle);
+        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(getActivity(), R.style.MessageStyle);
         if (!managerMessages.getLastName().equals(name)) {
             final UserMessage userMessage = new UserMessage(themeWrapper, name, text, Integer.parseInt(color));
-            final Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale_message);
+            final Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_message);
             userMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,7 +90,7 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
 
     public void showServerMessage(String text) {
 //        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.ServerMessageStyle);
-        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(this, R.style.MessageStyle);
+        ContextThemeWrapper themeWrapper = new ContextThemeWrapper(getActivity(), R.style.MessageStyle);
         if (!managerMessages.getLastName().equals("SERVER")) {
             ServerMessage serverMessage = new ServerMessage(themeWrapper, text, managerMessages.getServerColor());
             managerMessages.setLastName("SERVER");
@@ -122,29 +116,8 @@ public class ChatActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.nav_main:
-                if (drawer.isDrawerOpen(GravityCompat.START))
-                    drawer.closeDrawer(GravityCompat.START);
-                break;
-            case R.id.nav_settings:
-                Toast.makeText(this, "Clicked settings", Toast.LENGTH_LONG).show();
-                break;
-        }
-
-        return true;
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(LOG, "DESTROY FRAGMENT");
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        client.destroy();
-    }
-
 }

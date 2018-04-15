@@ -18,7 +18,7 @@ import static android.widget.Toast.LENGTH_LONG;
 import static com.gamedev.chillchat.Manager.*;
 
 
-public class MainActivity extends AppCompatActivity {
+public class ActivityLogin extends AppCompatActivity {
 
     private Button signIn;
     private EditText login, pass;
@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        activities.put("MainActivity", this);
+        setContentView(R.layout.activity_login);
+        activities.put("ActivityLogin", this);
 
         signIn = findViewById(R.id.sign_in_button);
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -57,19 +57,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToChat() {
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ActivityMain.class);
         this.startActivity(intent);
         this.overridePendingTransition(R.anim.activity_main_in, R.anim.activity_main_out);
     }
 
     public void wrongPass() {
-        Toast.makeText(MainActivity.this,
+        Toast.makeText(ActivityLogin.this,
                 "Не верный пароль",
                 LENGTH_LONG).show();
     }
 
     public void userAlreadyOnline() {
-        Toast.makeText(MainActivity.this,
+        Toast.makeText(ActivityLogin.this,
                 "Пользователь уже в сети",
                 LENGTH_LONG).show();
     }
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             Matcher mL = p.matcher(login.getText().toString());
             Matcher mP = p.matcher(pass.getText().toString());
             if (login.getText().toString().equals("") || pass.getText().toString().equals("") || mL.find() || mP.find()) {
-                Toast.makeText(MainActivity.this,
+                Toast.makeText(ActivityLogin.this,
                         "Логин или пароль не должны быть пустыми или содержать недопустимые символы",
                         LENGTH_LONG).show();
             } else {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else {
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ActivityLogin.this,
                     "Не удалось установить соединение",
                     LENGTH_LONG).show();
         }

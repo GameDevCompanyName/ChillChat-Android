@@ -15,7 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".GUI.MainActivity"
+                android:name=".GUI.ActivityLogin"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,11 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".GUI.ChatActivity"
+                android:name=".GUI.ActivityMain"
                 android:screenOrientation="portrait"
-                android:windowSoftInputMode="stateAlwaysHidden"
-        >
+                android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
+
     </application>
 
 </manifest>
